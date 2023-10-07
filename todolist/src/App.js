@@ -1,14 +1,34 @@
 import "./App.css";
 
-function App() {
+function Container() {
   return (
     <>
-      <div className="container">
-        <h1>Todo List</h1>
+      <div class="container">
+        <h1>TodoList</h1>
       </div>
-      <div className="container">testing</div>
+      <div class="container">
+        <Inputbox />
+      </div>
+      <div class="container">
+        <ListTable />
+      </div>
     </>
   );
 }
 
-export default App;
+function Inputbox() {
+  return (
+    <>
+      <input type="text"></input>
+      <button class="btn">Add</button>
+    </>
+  );
+}
+
+function ListTable() {
+  return <></>;
+}
+
+export default function App() {
+  return <Container></Container>;
+}
