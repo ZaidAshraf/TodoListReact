@@ -19,6 +19,7 @@ function Container() {
 function Inputbox() {
   const [itemList, setItemList] = useState([]);
   const [input, setInput] = useState("");
+  const rows = [];
 
   const handleAdd = () => {
     if (input !== "") {
@@ -32,6 +33,11 @@ function Inputbox() {
     console.log(itemList);
   }, [itemList]);
 
+  itemList.forEach((item) => {
+    rows.push(<Categories category={item.isDone} key={item.isDone} />);
+    rows.push(<ToDoList item={item.name} key={item.name} />);
+  });
+
   return (
     <>
       <input
@@ -42,8 +48,9 @@ function Inputbox() {
       <button className="btn" onClick={handleAdd}>
         Add
       </button>
-      <Categories />
-      <ToDoList />
+      <table>
+        <tbody>{rows}</tbody>
+      </table>
     </>
   );
 }
@@ -56,10 +63,10 @@ function Categories({ category }) {
   );
 }
 
-function ToDoList({ toDo }) {
+function ToDoList({ item }) {
   return (
     <>
-      <h1>{toDo}</h1>
+      <li>{item}</li>
     </>
   );
 }
