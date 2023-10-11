@@ -34,7 +34,6 @@ function Inputbox() {
   }, [itemList]);
 
   itemList.forEach((item) => {
-    rows.push(<Categories category={item.isDone} key={item.isDone} />);
     rows.push(<ToDoList item={item.name} key={item.name} />);
   });
 
@@ -49,17 +48,31 @@ function Inputbox() {
         Add
       </button>
       <table>
-        <tbody>{rows}</tbody>
+        <Categories rows />
       </table>
     </>
   );
 }
 
-function Categories({ category }) {
+function Categories({ rows }) {
+  // const items = rows.map((item) => <li key={item.name}>{item.name}</li>);
+
   return (
-    <tr>
-      <th>{category}</th>
-    </tr>
+    <>
+      <thead>
+        <tr>
+          <th>Todo</th>
+        </tr>
+      </thead>
+      <thead>
+        <tr>{/* <td>{items}</td> */}</tr>
+      </thead>
+      <thead>
+        <tr>
+          <th>Done</th>
+        </tr>
+      </thead>
+    </>
   );
 }
 
