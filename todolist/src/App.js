@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function Container() {
   return (
@@ -19,23 +19,15 @@ function Container() {
 function Inputbox() {
   const [itemList, setItemList] = useState([]);
   const [input, setInput] = useState("");
-  const rows = [];
 
   const handleAdd = () => {
     if (input !== "") {
       const newItem = { name: input, isDone: false };
+      console.log(newItem);
       setItemList([...itemList, newItem]);
       setInput("");
     }
   };
-
-  useEffect(() => {
-    console.log(itemList);
-  }, [itemList]);
-
-  itemList.forEach((item) => {
-    rows.push(<ToDoList item={item.name} key={item.name} />);
-  });
 
   return (
     <>
@@ -48,41 +40,75 @@ function Inputbox() {
         Add
       </button>
       <table>
-        <Categories rows />
+        <Categories itemList={itemList} setItemList={setItemList} />
       </table>
     </>
   );
 }
 
-function Categories({ rows }) {
-  // const items = rows.map((item) => <li key={item.name}>{item.name}</li>);
-
+function Categories({ itemList, setItemList }) {
   return (
     <>
       <thead>
         <tr>
-          <th>Todo</th>
+          <th className="header">Todo</th>
         </tr>
       </thead>
-      <thead>
-        <tr>{/* <td>{items}</td> */}</tr>
-      </thead>
+      <tbody>
+        <ul>
+          {itemList
+            .filter((i) => !i.isDone)
+            .map((item, i) => (
+              <ListItem key={i} item={item} setItemList={setItemList} />
+            ))}
+        </ul>
+      </tbody>
       <thead>
         <tr>
-          <th>Done</th>
+          <th className="header">Done</th>
         </tr>
       </thead>
+      <tbody>
+        <ul>
+          {itemList
+            .filter((i) => i.isDone)
+            .map((item, i) => (
+              <ListItem key={i} item={item} setItemList={setItemList} />
+            ))}
+        </ul>
+      </tbody>
+      <button
+        onClick={() => {
+          setItemList((prevItems) => prevItems.filter((i) => !i.isDone));
+        }}
+      >
+        Clear Done
+      </button>
     </>
   );
 }
 
-function ToDoList({ item }) {
+const ListItem = ({ item, setItemList }) => {
   return (
-    <>
-      <li>{item}</li>
-    </>
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <li>{item.name}</li>
+      <button
+        className="btn"
+        onClick={() => {
+          setItemList((prevItems) =>
+            prevItems.map((i) =>
+              i.name === item.name
+                ? { name: item.name, isDone: !item.isDone }
+                : i
+            )
+          );
+        }}
+      >
+        {item.isDone ? "Undo" : "Done"}
+      </button>
+    </div>
   );
-}
+};
 
 export default function App() {
   return <Container></Container>;
